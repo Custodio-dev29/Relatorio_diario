@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gerenciador de Relatórios</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>📋 Gerenciador de Relatórios</h1>
+      <p>Crie relatórios ou importe um PDF existente</p>
+    </header>
+
+
+    <div id="editingBadge" style="display:none; text-align:center;">
+      <span class="editing-badge">✏️ Editando: <span id="editingName"></span></span>
+    </div>
+
+    <!-- FORMULÁRIO -->
+    <div class="card">
+      <div class="card-title"><span class="icon icon-date">📅</span>Data e Horário</div>
+      <input type="datetime-local" id="dateTime">
+      <script>
+        window.addEventListener('DOMContentLoaded', function() {
+          var dt = document.getElementById('dateTime');
+          if (dt) {
+            var now = new Date();
+            var pad = n => n.toString().padStart(2, '0');
+            var local = now.getFullYear() + '-' + pad(now.getMonth()+1) + '-' + pad(now.getDate()) + 'T' + pad(now.getHours()) + ':' + pad(now.getMinutes());
+            dt.value = local;
+          }
+        });
+      </script>
+    </div>
+        <!-- IMPORTAR PDF -->
+    <div class="card card-import">
+      <div class="card-title"><span class="icon icon-import">📂</span>Importar PDF Existente</div>
+      <div class="upload-box upload-box-import" id="pdfUpload">
+        <div class="upload-icon">📄</div>
+        <div class="upload-text">Clique para selecionar um PDF</div>
+      </div>
+      <input type="file" id="pdfInput" accept=".pdf,application/pdf" hidden>
+      <div id="importInfo" class="import-info" style="display:none;"></div>
+      <div id="pdfPreviewContainer" class="pdf-preview-container"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon icon-subject">📌</span>Assunto</div>
+      <input type="text" id="subject" placeholder="Digite o assunto do relatório...">
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon icon-desc">📝</span>Descrição</div>
+      <textarea id="description" placeholder="Descreva os detalhes do relatório..."></textarea>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon icon-conclusion">✅</span>Conclusão</div>
+      <textarea id="conclusion" placeholder="Escreva a conclusão do relatório..."></textarea>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon icon-photo">📷</span>Fotos (<span id="photoCount">0</span>)</div>
+      <div class="upload-box" id="photoUpload">
+        <div class="upload-icon">📸</div>
+        <div class="upload-text">Clique para selecionar fotos</div>
+        <button class="btn btn-primary" id="btnTakePhoto" style="margin-top: 15px;">Tirar Foto</button>
+      </div>
+      <input type="file" id="photoInput" accept="image/*" multiple hidden>
+      <div class="photo-grid" id="photoGrid"></div>
+    </div>
+
+    <div class="btn-group">
+      <button class="btn btn-success" id="btnGenerate">💾 Gerar PDF</button>
+      <button class="btn btn-primary" id="btnOptions">⚙️ Com Opções</button>
+      <button class="btn btn-warning" id="btnNew">🆕 Novo</button>
+    </div>
+
+    <div id="status" class="status"></div>
+
+    <div id="pdfBox" class="pdf-box">
+      <h3>📄 PDF Gerado: <span id="pdfName"></span></h3>
+      <div class="pdf-buttons">
+        <button class="btn-download" id="btnDownload">⬇️ Baixar PDF</button>
+        <a class="btn-open" id="btnOpen" href="#" target="_blank">🔗 Abrir em Nova Aba</a>
+        <button class="btn-send-email" id="btnSendEmail">📧 Enviar por Email</button>
+      </div>
+    </div>
+
+    <div class="saved-reports">
+      <h2>📁 Relatórios Salvos</h2>
+      <div class="report-list" id="reportList">
+        <div class="empty-state">Nenhum relatório salvo</div>
+      </div>
+    </div>
+  </div>
+
+  
+  <!-- MODAL -->
+  <div class="modal" id="modal">
+    <div class="modal-content">
+      <h3>⚙️ Nome do Arquivo</h3>
+      <input type="text" id="fileName" placeholder="Digite o nome do arquivo...">
+      <div class="preview">💾 Será salvo como: <strong id="filePreview">arquivo.pdf</strong></div>
+      <div class="modal-buttons">
+        <button class="btn btn-secondary" id="btnCancel">Cancelar</button>
+        <button class="btn btn-success" id="btnSaveNamed">Salvar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- EMAIL MODAL -->
+  <div class="modal" id="emailModal">
+    <div class="modal-content">
+      <h3>📧 Enviar PDF por Email</h3>
+      <input type="email" id="emailTo" placeholder="Digite o email do destinatário...">
+      <div class="modal-buttons">
+        <button class="btn btn-secondary" id="btnCancelEmail">Cancelar</button>
+        <button class="btn btn-success" id="btnSendEmailAction">Enviar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCRIPTS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  
+
+  <script src="script.js"></script>
+</body>
+</html>

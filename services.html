@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.worker.min.js"></script>
+    <title>Lista de Serviços - Controle de Manutenção</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📋 Serviços Registrados</h1>
+        </div>
+
+        <div class="content">
+            <div class="button-group">
+                <a href="index.html" class="btn-back">← Voltar para o Cadastro</a>
+                <button class="btn-export">↓ Exportar para PDF</button>
+                <button class="btn-import">↑ Importar PDF</button>
+                <input type="file" id="pdfInput" accept=".pdf" style="display: none;">
+            </div>
+            <div class="services-list">
+                <div id="servicosList">
+                    <!-- O conteúdo será gerado pelo services.js -->
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Custodio-dev29 © 2025</p>
+        </div>
+    </div>
+
+    <!-- Modal de Visualização de Imagem -->
+    <div id="imageModal" class="modal">
+        <span class="close-modal">&times;</span>
+        <img class="modal-content" id="modalImage">
+    </div>
+
+    <script src="services.js"></script>
+</body>
+</html>

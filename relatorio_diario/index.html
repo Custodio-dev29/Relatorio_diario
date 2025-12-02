@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">    
+    <link rel="stylesheet" href="style.css">
+    <title>Relatorio diario</title>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📋 Relatorio diario</h1>
+        </div>
+
+        <div class="content">
+            <div class="form-group">
+                <label for="assunto">Assunto *</label>
+                <input type="text" id="assunto" placeholder="Ex: Tópico do relatório" required>
+            </div>
+
+            <div class="form-group">
+                <label for="prioridade">Prioridade *</label>
+                <select id="prioridade" required>
+                    <option value="urgente"selected>Urgente</option>
+                    <option value="media" >Média</option>
+                    <option value="baixa">Baixa</option>
+                    <option value="relatorio concluido">Relatório concluído</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="descricao">Descrição do ocorrido *</label>
+                <textarea id="descricao" placeholder="Descreva os detalhes do ocorrido..." required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Adicionar Imagens</label>
+                <div class="image-section">
+                    <p style="margin-bottom: 10px;">📸 Clique para adicionar imagens</p>
+                    <p style="font-size: 10px; color: #999;">Formatos: JPG, PNG, GIF</p>
+                </div>
+                <input type="file" id="imageInput" accept="image/*" multiple>
+                <div class="image-preview" id="imagePreview"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="conclusao">Conclusão*</label>
+                <textarea id="conclusao" placeholder="Insira as conclusões e observações finais..."></textarea>
+            </div>
+
+            <div class="button-group">
+                <button class="btn-add">✓ Adicionar</button>
+                <button class="btn-clear">Limpar Formulário</button>
+                <a href="services.html" class="btn-view-all">Ver Todos os Relatórios ➔</a>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Custodio-dev29 © 2025 | Data: <span id="dataAtual"></span></p>
+        </div>
+    </div>
+
+    <!-- Modal de Visualização de Imagem -->
+    <div id="imageModal" class="modal">
+        <span class="close-modal">&times;</span>
+        <img class="modal-content" id="modalImage">
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>            
+        
+    </script>
+</body>
+</html>

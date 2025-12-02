@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- SELETORES DO DOM ---
     const assuntoInput = document.getElementById('assunto');
     const descricaoInput = document.getElementById('descricao');
+    const prioridadeInput = document.getElementById('prioridade');
     const conclusaoInput = document.getElementById('conclusao');
     const imageInput = document.getElementById('imageInput');
     const imagePreview = document.getElementById('imagePreview');
@@ -151,6 +152,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const assunto = assuntoInput.value.trim();
         const descricao = descricaoInput.value.trim();
+        const prioridade = prioridadeInput.value;
         const conclusao = conclusaoInput.value.trim();
 
         if (!assunto || !descricao || !conclusao) {
@@ -162,6 +164,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const servico = {
             id: Date.now(),
             assunto,
+            prioridade,
             descricao,
             conclusao,
             imagens: [...imagens],
@@ -181,6 +184,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const servico = servicos[servicoEmEdicaoIndex];
         servico.assunto = assuntoInput.value.trim();
         servico.descricao = descricaoInput.value.trim();
+        servico.prioridade = prioridadeInput.value;
         servico.conclusao = conclusaoInput.value.trim();
         servico.imagens = [...imagens];
 
@@ -210,6 +214,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         assuntoInput.value = servico.assunto;
         descricaoInput.value = servico.descricao;
+        prioridadeInput.value = servico.prioridade || 'media'; // Define 'media' se não houver prioridade
         conclusaoInput.value = servico.conclusao;
         imagens = [...servico.imagens]; // Carrega as imagens do serviço
         renderizarImagens();
@@ -221,6 +226,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function limparFormulario() {
         assuntoInput.value = '';
         descricaoInput.value = '';
+        prioridadeInput.value = 'media'; // Reseta para o valor padrão
         conclusaoInput.value = '';
         imagens = [];
         imageInput.value = '';

@@ -68,8 +68,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         servicosList.innerHTML = servicos.map((s, index) => `
-            <div class="service-card" data-id="${s.id}">
+            <div class="service-card priority-${s.prioridade || 'media'}" data-id="${s.id}">
                 <p><strong>Assunto:</strong> ${s.assunto}</p>
+                <p><strong>Prioridade:</strong> 
+                    <span class="priority-text">${s.prioridade ? s.prioridade.charAt(0).toUpperCase() + s.prioridade.slice(1) : 'Não definida'}</span>
+                </p>
                 <p><strong>Descrição:</strong> ${s.descricao}</p>
                 <p><strong>Conclusão:</strong> ${s.conclusao}</p>
                 ${s.imagens.length > 0 ? `
@@ -169,11 +172,21 @@ document.addEventListener('DOMContentLoaded', () => {
             if (y + cardHeight > doc.internal.pageSize.getHeight() - 20) {
                 y = addPageWithHeader();
             }
+            
+            // Define as cores de prioridade
+            const priorityColors = {
+                urgente: '#e74c3c',
+                media: '#f39c12',
+                baixa: '#3498db',
+                default: '#cccccc'
+            };
+            const cardColor = priorityColors[servico.prioridade] || priorityColors.default;
 
+            // Desenha a borda do card
             doc.setDrawColor("#e3e3e3");
             doc.setLineWidth(0.2);
-            doc.roundedRect(15, y, doc.internal.pageSize.getWidth() - 30, cardHeight - 5, 3, 3, 'D');
-
+            doc.roundedRect(15, y, doc.internal.pageSize.getWidth() - 30, cardHeight - 5, 3, 3, 'S'); // 'S' para traçar (não preencher)
+            
             let innerY = y + 10;
 
             doc.setFontSize(14);
@@ -206,6 +219,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 innerY += (textContent.length * 5) + 4;
             };
+
+            // --- Adiciona a Prioridade com fundo colorido ---
+            doc.setFontSize(10);
+            doc.setFont(undefined, 'bold');
+            doc.setTextColor(textColor);
+            doc.text("Prioridade:", 20, innerY);
+
+            const prioridadeTexto = servico.prioridade ? servico.prioridade.charAt(0).toUpperCase() + servico.prioridade.slice(1) : 'Não definida';
+            const labelWidth = doc.getTextWidth("Prioridade:");
+            const badgeX = 20 + labelWidth + 2;
+            const badgeWidth = doc.getTextWidth(prioridadeTexto) + 4;
+            const badgeHeight = 5;
+
+            // Desenha o fundo da etiqueta
+            doc.setFillColor(cardColor);
+            doc.roundedRect(badgeX, innerY - (badgeHeight / 2) - 1, badgeWidth, badgeHeight, 2, 2, 'F');
+
+            // Escreve o texto da prioridade
+            doc.setFont(undefined, 'bold');
+            doc.setTextColor("#ffffff"); // Texto branco
+            doc.text(prioridadeTexto, badgeX + 2, innerY);
+
+            innerY += 8; // Espaçamento após a prioridade
+            // --- Fim da seção de Prioridade ---
 
             addText("Descrição:", servico.descricao);
             addText("Conclusão:", servico.conclusao);
@@ -272,6 +309,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return (textContent.length * 5) + 4;
         };
 
+        height += addTextHeight(servico.prioridade, 55);
         height += addTextHeight(servico.descricao, 55);
         height += addTextHeight(servico.conclusao, 55);
 

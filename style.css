@@ -52,7 +52,7 @@ input[type="text"],
 textarea,
 select {
     width: 100%;
-    padding: 6px;
+    padding: 3px;
     border: 2px solid #242424;
     border-radius: 5px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -215,6 +215,7 @@ button {
 .btn-view-all, .btn-back {
     background: #788ca3;
     color: white;
+    width: 40px;
     flex: 1;
     min-width: 150px;
     text-decoration: none;
@@ -268,12 +269,6 @@ button {
 }
 .btn-delete:hover {
     background: #c82333;
-}
-
-.service-controls {
-    margin-bottom: 20px;
-    padding-bottom: 20px;
-    border-bottom: 1px solid #e0e0e0;
 }
 
 .services-list {
@@ -420,14 +415,14 @@ button {
 
 @media (max-width: 768px) {
     .content {
-        padding: 20px;
+        padding: 10px;
     }
 
     .button-group {
-        flex-direction: column;
+        flex-direction: row;
     }
 
     button {
-        width: 100%;
+        width: 40px;
     }
 }

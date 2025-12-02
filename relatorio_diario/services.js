@@ -178,13 +178,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const addHeader = () => {
             doc.setFontSize(10);
             doc.setTextColor(primaryColor);
-            doc.text("Logo da Empresa", 15, 15);
+            doc.text("", 15, 15);
 
             doc.setFontSize(18);
             doc.setTextColor(textColor);
-            doc.text("Relatório de Serviços de Manutenção", doc.internal.pageSize.getWidth() / 2, 20, { align: 'center' });
+            doc.text("Relatório diário", doc.internal.pageSize.getWidth() / 2, 20, { align: 'center' });
 
-            doc.setFontSize(10);
+            doc.setFontSize(6);
             doc.setTextColor(secondaryColor);
             doc.text(`Data de Exportação: ${dataFormatada}`, doc.internal.pageSize.getWidth() - 15, 15, { align: 'right' });
 
@@ -355,7 +355,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         try {
             const pdfOutput = doc.output('blob');
-            const pdfName = `Relatorio_Servicos_${dataFormatada.replace(/\//g, '-')}.pdf`;
+            const pdfName = `Relatorio_Diario_${dataFormatada.replace(/\//g, '-')}.pdf`;
             const link = document.createElement('a');
             link.href = URL.createObjectURL(pdfOutput);
             link.download = pdfName;
@@ -364,7 +364,7 @@ document.addEventListener('DOMContentLoaded', () => {
             document.body.removeChild(link);
         } catch (e) {
             console.error("Erro ao gerar Blob, usando doc.save() como fallback", e);
-            doc.save(`Relatorio_Servicos_${dataFormatada.replace(/\//g, '-')}.pdf`);
+            doc.save(`Relatorio_Diario_${dataFormatada.replace(/\//g, '-')}.pdf`);
         }
     }
 

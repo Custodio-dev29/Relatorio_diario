@@ -422,7 +422,7 @@ button {
         flex-direction: row;
     }
 
-    button {
+    button,.btn-view-all, .btn-back {
         width: 100%;
     }
 }

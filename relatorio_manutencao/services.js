@@ -178,13 +178,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const addHeader = () => {
             doc.setFontSize(10);
             doc.setTextColor(primaryColor);
-            doc.text("Logo da Empresa", 15, 15);
+            doc.text("", 15, 15);
 
             doc.setFontSize(18);
             doc.setTextColor(textColor);
             doc.text("Relatório de Serviços de Manutenção", doc.internal.pageSize.getWidth() / 2, 20, { align: 'center' });
 
-            doc.setFontSize(10);
+            doc.setFontSize(6);
             doc.setTextColor(secondaryColor);
             doc.text(`Data de Exportação: ${dataFormatada}`, doc.internal.pageSize.getWidth() - 15, 15, { align: 'right' });
 

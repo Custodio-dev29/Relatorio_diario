@@ -423,6 +423,6 @@ button {
     }
 
     button {
-        width: 40px;
+        width: 100%;
     }
 }

@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const dataAtualSpan = document.getElementById('dataAtual');
     const imageSection = document.querySelector('.image-section');
     const addServiceBtn = document.querySelector('.btn-add');
+    const clearFormBtn = document.querySelector('.btn-clear');
     const header = document.querySelector('.header');
 
     // Modal de Imagem
@@ -41,6 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function configurarEventListeners() {
         addServiceBtn.addEventListener('click', adicionarServico);
+        clearFormBtn.addEventListener('click', limparFormulario);
         imageInput.addEventListener('change', handleImageUpload);
         imageSection.addEventListener('click', () => imageInput.click());
 
@@ -155,7 +157,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const prioridade = prioridadeInput.value;
         const conclusao = conclusaoInput.value.trim();
 
-        if (!assunto || !descricao || !conclusao) {
+        if (!assunto || !descricao) {
             const camposFaltando = [!assunto && 'Assunto', !descricao && 'Descrição', !conclusao && 'Conclusão'].filter(Boolean);
             alert(`Por favor, preencha os campos obrigatórios: ${camposFaltando.join(', ')}!`);
             return;
@@ -226,7 +228,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function limparFormulario() {
         assuntoInput.value = '';
         descricaoInput.value = '';
-        prioridadeInput.value = 'media'; // Reseta para o valor padrão
+        prioridadeInput.value = 'urgente'; // Reseta para o valor padrão
         conclusaoInput.value = '';
         imagens = [];
         imageInput.value = '';

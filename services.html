@@ -17,10 +17,22 @@
         </div>
 
         <div class="content">
+            <div class="service-controls">
+                <div class="form-group">
+                    <label for="filterPriority">Filtrar por Prioridade</label>
+                    <select id="filterPriority">
+                        <option value="todos">Todas</option>
+                        <option value="urgente">Urgente</option>
+                        <option value="media">Média</option>
+                        <option value="baixa">Baixa</option>
+                    </select>
+                </div>
+            </div>
             <div class="button-group">
                 <a href="index.html" class="btn-back">← Voltar para o Cadastro</a>
                 <button class="btn-export">↓ Exportar para PDF</button>
                 <button class="btn-import">↑ Importar PDF</button>
+                <button class="btn-delete-all">🗑️ Excluir Todos</button>
                 <input type="file" id="pdfInput" accept=".pdf" style="display: none;">
             </div>
             <div class="services-list">

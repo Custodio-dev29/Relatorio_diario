@@ -7,6 +7,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const exportPdfBtn = document.querySelector('.btn-export');
     const importPdfBtn = document.querySelector('.btn-import');
     const pdfInput = document.getElementById('pdfInput');
+    const deleteAllBtn = document.querySelector('.btn-delete-all');
+    const filterPriorityInput = document.getElementById('filterPriority');
 
     // --- ESTADO DA APLICAÇÃO ---
     const STORAGE_KEY = 'servicosManutencao';
@@ -34,6 +36,10 @@ document.addEventListener('DOMContentLoaded', () => {
         exportPdfBtn.addEventListener('click', exportarParaPDF);
         importPdfBtn.addEventListener('click', () => pdfInput.click());
         pdfInput.addEventListener('change', importarDePDF);
+
+        deleteAllBtn.addEventListener('click', excluirTodosServicos);
+        // Event listener para o filtro
+        filterPriorityInput.addEventListener('change', renderizarServicos);
     }
 
     // --- GERENCIAMENTO DE ESTADO (LocalStorage) ---
@@ -61,13 +67,50 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function renderizarServicos() {
+    function excluirTodosServicos() {
         if (servicos.length === 0) {
-            servicosList.innerHTML = '<div class="no-services">Nenhum serviço registrado ainda.</div>';
+            alert("Não há serviços para excluir.");
             return;
         }
 
-        servicosList.innerHTML = servicos.map((s, index) => `
+        if (confirm(`Tem certeza que deseja excluir TODOS os ${servicos.length} serviços registrados? Esta ação não pode ser desfeita.`)) {
+            servicos = []; // Limpa o array de serviços
+            salvarServicos(); // Atualiza o localStorage com o array vazio
+            renderizarServicos(); // Atualiza a interface
+        }
+    }
+
+    function renderizarServicos() {
+        const filterValue = filterPriorityInput.value;
+
+        let servicosFiltrados = servicos.filter(servico => {
+            if (filterValue === 'todos') return true;
+            return servico.prioridade === filterValue;
+        });
+
+        // Classifica os serviços por prioridade (Urgente > Média > Baixa)
+        const priorityOrder = { 'urgente': 1, 'media': 2, 'baixa': 3 };
+        servicosFiltrados.sort((a, b) => {
+            const prioridadeA = priorityOrder[a.prioridade] || 4; // Usa 4 para prioridades não definidas
+            const prioridadeB = priorityOrder[b.prioridade] || 4;
+
+            if (prioridadeA !== prioridadeB) {
+                return prioridadeA - prioridadeB;
+            }
+            // Se a prioridade for a mesma, classifica pelo mais recente (ID maior)
+            return b.id - a.id;
+        });
+
+        if (servicosFiltrados.length === 0) {
+            if (servicos.length === 0) {
+            servicosList.innerHTML = '<div class="no-services">Nenhum serviço registrado ainda.</div>';
+            } else {
+                servicosList.innerHTML = '<div class="no-services">Nenhum serviço encontrado para este filtro.</div>';
+            }
+            return;
+        }
+
+        servicosList.innerHTML = servicosFiltrados.map(s => `
             <div class="service-card priority-${s.prioridade || 'media'}" data-id="${s.id}">
                 <p><strong>Assunto:</strong> ${s.assunto}</p>
                 <p><strong>Prioridade:</strong> 
@@ -83,8 +126,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>` : ''}
                 <div class="service-date">Registrado em: ${s.data}</div>
                 <div class="service-card-actions">
-                    <button class="btn-edit" data-index="${index}">✏️ Editar</button>
-                    <button class="btn-delete" data-index="${index}">🗑️ Excluir</button>
+                    <button class="btn-edit" data-id="${s.id}">✏️ Editar</button>
+                    <button class="btn-delete" data-id="${s.id}">🗑️ Excluir</button>
                 </div>
             </div>
         `).join('');
@@ -92,12 +135,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function handleServiceListClick(event) {
         const target = event.target;
-        const index = target.dataset.index;
+        const servicoId = parseInt(target.dataset.id, 10);
+
+        if (!servicoId) return;
 
         if (target.classList.contains('btn-edit')) {
-            editarServico(parseInt(index, 10));
+            window.location.href = `index.html?edit=${servicoId}`;
         } else if (target.classList.contains('btn-delete')) {
-            excluirServico(parseInt(index, 10));
+            const index = servicos.findIndex(s => s.id === servicoId);
+            if (index !== -1) excluirServico(index);
         } else if (target.classList.contains('service-card-thumbnail')) {
             abrirModal(target.src);
         }
@@ -166,7 +212,28 @@ document.addEventListener('DOMContentLoaded', () => {
         addHeader();
         let y = 35;
 
-        servicos.forEach((servico) => {
+        // Pega o valor do filtro atual
+        const filterValue = filterPriorityInput.value;
+
+        // Filtra os serviços conforme o filtro selecionado
+        let servicosParaExportar = servicos.filter(servico => {
+            if (filterValue === 'todos') return true;
+            return servico.prioridade === filterValue;
+        });
+
+        // Ordena os serviços filtrados pela mesma regra da tela
+        const priorityOrder = { 'urgente': 1, 'media': 2, 'baixa': 3 };
+        servicosParaExportar.sort((a, b) => {
+            const prioridadeA = priorityOrder[a.prioridade] || 4;
+            const prioridadeB = priorityOrder[b.prioridade] || 4;
+            if (prioridadeA !== prioridadeB) {
+                return prioridadeA - prioridadeB;
+            }
+            return b.id - a.id;
+        });
+
+        // Itera sobre a lista filtrada e ordenada para criar o PDF
+        servicosParaExportar.forEach((servico) => {
             const cardHeight = calculateCardHeight(servico, doc);
 
             if (y + cardHeight > doc.internal.pageSize.getHeight() - 20) {

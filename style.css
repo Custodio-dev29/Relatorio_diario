@@ -199,6 +199,19 @@ button {
     box-shadow: 0 5px 15px rgba(255, 99, 72, 0.4);
 }
 
+.btn-delete-all {
+    background: #dc3545;
+    color: white;
+    flex: 1;
+    min-width: 150px;
+}
+
+.btn-delete-all:hover {
+    background: #c82333;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(220, 53, 69, 0.4);
+}
+
 .btn-view-all, .btn-back {
     background: #788ca3;
     color: white;
@@ -255,6 +268,12 @@ button {
 }
 .btn-delete:hover {
     background: #c82333;
+}
+
+.service-controls {
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #e0e0e0;
 }
 
 .services-list {

@@ -133,11 +133,12 @@ document.addEventListener('DOMContentLoaded', () => {
         `).join('');
     }
 
-    function handleServiceListClick(event) {
+   function handleServiceListClick(event) {
         const target = event.target;
-        const servicoId = parseInt(target.dataset.id, 10);
-
-        if (!servicoId) return;
+        const card = target.closest('.service-card');
+        if (!card) return;
+        
+        const servicoId = parseInt(card.dataset.id, 10);
 
         if (target.classList.contains('btn-edit')) {
             window.location.href = `index.html?edit=${servicoId}`;
@@ -145,7 +146,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const index = servicos.findIndex(s => s.id === servicoId);
             if (index !== -1) excluirServico(index);
         } else if (target.classList.contains('service-card-thumbnail')) {
-            abrirModal(target.src);
+            abrirModal(target.src); // A lógica de abrir o modal já está aqui.
         }
     }
 

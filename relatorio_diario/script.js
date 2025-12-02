@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const closeModalSpan = document.querySelector('.close-modal');
 
     // --- ESTADO DA APLICAÇÃO ---
-    const STORAGE_KEY = 'servicosManutencao';
+    const STORAGE_KEY = 'relatorio_diario';
     let servicos = carregarServicos();
     let imagens = [];
     let servicoEmEdicaoIndex = null;
